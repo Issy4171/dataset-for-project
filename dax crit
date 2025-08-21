@@ -1,0 +1,33 @@
+dax crit
+
+Criterion 3: Measures quality
+
+We didn’t just rely on default aggregations (like SUM). We wrote custom DAX to answer deeper questions.
+
+Example: To find the Top Artist by Year, we created this measure:
+
+Top Artist by Year :=
+VAR tArtists =
+    ADDCOLUMNS(
+        SUMMARIZE('music_physical_vs_streaming', 'music_physical_vs_streaming'[Artist]),
+        "__Sales", [Total Sales]
+    )
+VAR topRow =
+    TOPN(1, tArtists, [__Sales], DESC)
+RETURN
+IF(
+    ISBLANK([Total Sales]),
+    "—",
+    CONCATENATEX(topRow, 'music_physical_vs_streaming'[Artist], ", ")
+)
+
+
+✅ This goes beyond a simple SUM:
+
+It groups artists,
+
+ranks them by total sales,
+
+and returns only the top artist for the selected year (using slicer).
+
+This measure is central to our “Spotify Wrapped” board — it personalises the experience year by year, just like the real Wrapped feature
