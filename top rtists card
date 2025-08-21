@@ -1,0 +1,59 @@
+Top Streaming Artist (Card) :=
+VAR byArtist =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Artist]),
+        "Strm", CALCULATE(SUM('music_physical_vs_streaming'[Streaming_Sales_Millions]))
+    )
+VAR top1 =
+    TOPN(1, byArtist, [Strm], DESC, 'music_physical_vs_streaming'[Artist], ASC)
+VAR aName = MAXX(top1, 'music_physical_vs_streaming'[Artist])
+VAR aVal  = MAXX(top1, [Strm])
+RETURN
+IF(
+    ISBLANK(aVal),
+    "—",
+    "🎧 " & aName & " — " & FORMAT(aVal, "#,0.00") & "M"
+)
+
+
+Top Physical Artist (Card) :=
+VAR byArtist =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Artist]),
+        "Phys", CALCULATE(SUM('music_physical_vs_streaming'[Physical_Sales_Millions]))
+    )
+VAR top1 =
+    TOPN(1, byArtist, [Phys], DESC, 'music_physical_vs_streaming'[Artist], ASC)
+VAR aName = MAXX(top1, 'music_physical_vs_streaming'[Artist])
+VAR aVal  = MAXX(top1, [Phys])
+RETURN
+IF(
+    ISBLANK(aVal),
+    "—",
+    "💿 " & aName & " — " & FORMAT(aVal, "#,0.00") & "M"
+)
+
+
+
+Top Overall Artist (Card) :=
+VAR byArtist =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Artist]),
+        "Phys", CALCULATE(SUM('music_physical_vs_streaming'[Physical_Sales_Millions])),
+        "Strm", CALCULATE(SUM('music_physical_vs_streaming'[Streaming_Sales_Millions]))
+    )
+VAR withTotals =
+    ADDCOLUMNS(byArtist, "Total", [Phys] + [Strm])
+VAR top1 =
+    TOPN(1, withTotals, [Total], DESC, 'music_physical_vs_streaming'[Artist], ASC)
+VAR aName = MAXX(top1, 'music_physical_vs_streaming'[Artist])
+VAR physVal = MAXX(top1, [Phys])
+VAR strmVal = MAXX(top1, [Strm])
+VAR totalVal = MAXX(top1, [Total])
+RETURN
+IF(
+    ISBLANK(totalVal),
+    "—",
+    aName & " — " & FORMAT(totalVal, "#,0.00") & "M (💿 " &
+    FORMAT(physVal, "#,0.00") & "M | 🎧 " & FORMAT(strmVal, "#,0.00") & "M)"
+)
