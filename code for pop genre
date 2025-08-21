@@ -1,0 +1,26 @@
+Top Genre (Physical + Streaming) :=
+VAR tPhysical =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Genre]),
+        "__Physical", SUM('music_physical_vs_streaming'[Physical_Sales_Millions])
+    )
+VAR tStreaming =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Genre]),
+        "__Streaming", SUM('music_physical_vs_streaming'[Streaming_Sales_Millions])
+    )
+VAR topPhysical =
+    TOPN(1, tPhysical, [__Physical], DESC, 'music_physical_vs_streaming'[Genre], ASC)
+VAR topStreaming =
+    TOPN(1, tStreaming, [__Streaming], DESC, 'music_physical_vs_streaming'[Genre], ASC)
+VAR physicalName = CONCATENATEX(topPhysical, 'music_physical_vs_streaming'[Genre], ", ")
+VAR physicalValue = MAXX(topPhysical, [__Physical])
+VAR streamingName = CONCATENATEX(topStreaming, 'music_physical_vs_streaming'[Genre], ", ")
+VAR streamingValue = MAXX(topStreaming, [__Streaming])
+RETURN
+IF(
+    ISBLANK(physicalValue) && ISBLANK(streamingValue),
+    "—",
+    "💿 " & physicalName & " — " & FORMAT(physicalValue, "#,0.00") & "M | " &
+    "🎧 " & streamingName & " — " & FORMAT(streamingValue, "#,0.00") & "M"
+)
