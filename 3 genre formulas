@@ -1,0 +1,73 @@
+Top Physical Genre (Card) :=
+VAR byGenre =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Genre]),
+        "Phys", CALCULATE(SUM('music_physical_vs_streaming'[Physical_Sales_Millions]))
+    )
+VAR top1 =
+    TOPN(1, byGenre, [Phys], DESC, 'music_physical_vs_streaming'[Genre], ASC)
+VAR gName = MAXX(top1, 'music_physical_vs_streaming'[Genre])
+VAR gVal  = MAXX(top1, [Phys])
+RETURN
+IF(
+    ISBLANK(gVal),
+    "—",
+    "💿 " & gName & " — " & FORMAT(gVal, "#,0.00") & "M"
+)
+
+
+Top Streaming Genre (Card) :=
+VAR byGenre =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Genre]),
+        "Strm", CALCULATE(SUM('music_physical_vs_streaming'[Streaming_Sales_Millions]))
+    )
+VAR top1 =
+    TOPN(1, byGenre, [Strm], DESC, 'music_physical_vs_streaming'[Genre], ASC)
+VAR gName = MAXX(top1, 'music_physical_vs_streaming'[Genre])
+VAR gVal  = MAXX(top1, [Strm])
+RETURN
+IF(
+    ISBLANK(gVal),
+    "—",
+    "🎧 " & gName & " — " & FORMAT(gVal, "#,0.00") & "M"
+)
+
+
+
+
+
+
+
+
+Top Overall Genre (Card) :=
+VAR byGenre =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Genre]),
+        "Phys", CALCULATE(SUM('music_physical_vs_streaming'[Physical_Sales_Millions])),
+        "Strm", CALCULATE(SUM('music_physical_vs_streaming'[Streaming_Sales_Millions]))
+    )
+VAR withTotals =
+    ADDCOLUMNS(
+        byGenre,
+        "Total", [Phys] + [Strm]
+    )
+VAR top1 =
+    TOPN(1, withTotals, [Total], DESC, 'music_physical_vs_streaming'[Genre], ASC)
+VAR gName = MAXX(top1, 'music_physical_vs_streaming'[Genre])
+VAR physVal = MAXX(top1, [Phys])
+VAR strmVal = MAXX(top1, [Strm])
+VAR totalVal = MAXX(top1, [Total])
+RETURN
+IF(
+    ISBLANK(totalVal),
+    "—",
+    gName & " — " & FORMAT(totalVal, "#,0.00") & "M (💿 " &
+    FORMAT(physVal, "#,0.00") & "M | 🎧 " & FORMAT(strmVal, "#,0.00") & "M)"
+)
+
+
+
+
+
+
