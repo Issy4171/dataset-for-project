@@ -1,0 +1,16 @@
+Top Streaming Genre (by Year) :=
+VAR tGenres =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Genre]),
+        "__Streams", SUM('music_physical_vs_streaming'[Streaming_Sales_Millions])
+    )
+VAR topRow =
+    TOPN(1, tGenres, [__Streams], DESC, 'music_physical_vs_streaming'[Genre], ASC)
+VAR genreName = CONCATENATEX(topRow, 'music_physical_vs_streaming'[Genre], ", ")
+VAR genreValue = MAXX(topRow, [__Streams])
+RETURN
+IF(
+    ISBLANK(genreValue),
+    "—",
+    "🎧 " & genreName & " — " & FORMAT(genreValue, "#,0.00") & "M"
+)
