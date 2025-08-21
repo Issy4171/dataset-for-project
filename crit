@@ -1,0 +1,166 @@
+Perfect ✅ — I’ll draft you a structured document you can hand in or use as speaker notes. It will outline the whole project, show what you did at each step, and explicitly link back to the assessment criteria so you hit everything.
+
+🎶 Power BI Data Storytelling Project – Music Physical vs Streaming
+1. Project Overview
+
+This project uses the dataset music_physical_vs_streaming.csv to explore how the music industry shifted from physical sales (💿 CDs, vinyl) to streaming (🎧 Spotify, Apple Music). Inspired by Spotify Wrapped, the story is told through two dashboards:
+
+General Trends Board – industry-wide evolution of physical vs streaming.
+
+Spotify Wrapped Board – yearly breakdowns of top artists & genres.
+
+Core Question: How did streaming overtake physical sales, and how did this affect genres and artists across the years?
+
+2. Deliverables
+
+Deliverable 1: Power BI .pbix file with 2 dashboards.
+
+Deliverable 2: Appendix page showing data transformations in Power Query.
+
+Deliverable 3: 5–10 min presentation telling the story through the dashboards.
+
+3. Data Preparation (Power Query)
+Import & Model
+
+Imported CSV into Power BI.
+
+Verified headers and data types:
+
+Year → Whole Number
+
+Sales → Decimal Number
+
+Artist/Genre → Text
+
+Cleaning Steps
+
+Removed blank rows/columns.
+
+Cleaned text (e.g., fixed inconsistent genre casing).
+
+Removed duplicates.
+
+Renamed Applied Steps for reproducibility.
+
+Named query: music_physical_vs_streaming.
+
+(Appendix screenshot will show these applied steps in Power Query pane.)
+
+Measures Created (DAX)
+
+[Total Physical Sales] = SUM(music_physical_vs_streaming[Physical_Sales_Millions])
+
+[Total Streaming Sales] = SUM(music_physical_vs_streaming[Streaming_Sales_Millions])
+
+Top Artist by Year: using TOPN + CONCATENATEX.
+
+Top Genre by Year (Physical & Streaming): RANKX with total sales.
+
+Combined Top Genre: returns genre + format + total sales.
+
+4. Dashboards
+Board 1: General Trends (The Long Arc)
+
+Visuals:
+
+Line chart: Physical vs Streaming sales across years.
+
+KPI cards: Total Physical Sales 💿, Total Streaming Sales 🎧.
+
+Donut chart: Format market share by year.
+
+Stacked bar chart: Genre split by format.
+
+Insights (Narrative):
+
+Streaming overtakes physical around mid-2010s.
+
+Physical sales decline but Rock/Classical remain strong in physical formats.
+
+Pop & Hip-Hop dominate streaming.
+
+Board 2: Spotify Wrapped (Year by Year)
+
+Visuals:
+
+Vertical slicer: Select Year.
+
+KPI cards: Top Artist (Physical 💿, Streaming 🎧, Combined 🔥).
+
+KPI cards: Top Genre (Physical 💿, Streaming 🎧, Combined 🔥).
+
+Treemap: Genre mix in selected year.
+
+Bar chart: Top 5 artists by sales/streams.
+
+Insights (Narrative):
+
+Each year tells a different story — Rock stars top physical in 2000, while Pop dominates streaming in 2020.
+
+Artists differ by format (legacy bands dominate physical, new acts dominate streaming).
+
+Genres evolve: Rock → Pop → Hip Hop/Pop.
+
+5. Storytelling Arc (Presentation Narrative)
+
+Beginning:
+“The music industry has transformed — our question is: when and how did streaming overtake physical, and what does it mean for genres and artists?”
+
+Middle:
+
+Board 1 (General Trends): Shows the big-picture shift and tipping point.
+
+Board 2 (Wrapped): Year-by-year surprises, like a Spotify Wrapped reveal.
+
+End:
+“Streaming is now the clear leader, but physical lives on in niche genres. The story of music is about format, fandom, and evolution — and every year tells a new story.”
+
+6. How We Hit the Criteria
+
+✅ Data import accuracy
+
+Correctly loaded CSV, verified headers & types.
+
+✅ Cleansing and modeling
+
+Removed blanks/duplicates, cleaned text, applied transformations, renamed steps.
+
+Logical data model with measures & relationships (Year slicer).
+
+✅ Measures quality
+
+Core KPIs for Physical & Streaming.
+
+Advanced measures: Top Artist/Genre by Year, combined cards.
+
+Validated with supporting matrix tables.
+
+✅ Visual effectiveness
+
+Each visual answers a distinct question:
+
+Line = format trend
+
+Donut = format share
+
+Bar = top artists
+
+Treemap = genre mix
+
+Clear titles, emojis for fun, slicers for interaction.
+
+✅ Narrative coherence
+
+Clear arc: beginning (setup), middle (reveals), end (takeaway).
+
+Spotify Wrapped analogy makes it engaging.
+
+Evidence supports hypothesis: streaming overtakes physical.
+
+7. Conclusion
+
+This project blends data storytelling with fun Spotify Wrapped-style interactivity. It demonstrates technical skills (Power Query, DAX, modeling), visual design (clear charts, slicers, cards), and narrative delivery (structured arc with insights).
+
+Final takeaway: Streaming is king, but physical music has never fully disappeared — and every year tells a new story.
+
+Would you like me to format this into a clean Word/PDF report (with sections, headers, maybe placeholders for screenshots of your dashboards), so you can hand it in directly?
