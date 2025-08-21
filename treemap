@@ -1,0 +1,3 @@
+Total Physical Sales = SUM('music_physical_vs_streaming'[Physical_Sales_Millions])
+
+Total Streaming Sales = SUM('music_physical_vs_streaming'[Streaming_Sales_Millions])
