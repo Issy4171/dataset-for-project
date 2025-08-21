@@ -1,0 +1,16 @@
+Top Physical Genre (by Year) :=
+VAR tGenres =
+    ADDCOLUMNS(
+        VALUES('music_physical_vs_streaming'[Genre]),
+        "__Physical", SUM('music_physical_vs_streaming'[Physical_Sales_Millions])
+    )
+VAR topRow =
+    TOPN(1, tGenres, [__Physical], DESC, 'music_physical_vs_streaming'[Genre], ASC)
+VAR genreName = CONCATENATEX(topRow, 'music_physical_vs_streaming'[Genre], ", ")
+VAR genreValue = MAXX(topRow, [__Physical])
+RETURN
+IF(
+    ISBLANK(genreValue),
+    "—",
+    "💿 " & genreName & " — " & FORMAT(genreValue, "#,0.00") & "M"
+)
